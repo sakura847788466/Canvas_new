@@ -424,11 +424,17 @@ export default {
             h: 100,
             style: {
               cursor: 'move',
-              padding: '10px'
+              padding: '10px',
+              transform: '',
             },
             isTable: true,
             table: null,
-            ref: id
+            ref: id,
+            rote: 0,
+            ele: event,
+            size: 12,
+            ls: 0,
+            lh: 38
           }
         case 'DPhoto':
           return {
@@ -441,6 +447,7 @@ export default {
             },
             img: img.photo,
             isPhoto: true,
+            status: false,
             rote: 0,
             ref: id,
             radius: 0,

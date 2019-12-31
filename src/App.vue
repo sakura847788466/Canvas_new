@@ -1,29 +1,28 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
+export default {
+  name: "App",
+  data () {
+    return {}
+  },
+  methods: {},
+  components: {
+  },
+  props: {}
 
-  export default {
-    name: "App",
-    data() {
-      return {}
-    },
-    methods: {},
-    components: {},
-    props: {}
-
-  }
+}
 </script>
 
 <style>
-  #app{
-    min-height: 100%;
-    height: auto;
-    background-color: #F5F5F5;
-    font-size: 14px;
-  }
-
+#app {
+  min-height: 100%;
+  height: auto;
+  background-color: #f5f5f5;
+  font-size: 14px;
+}
 </style>
