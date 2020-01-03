@@ -417,6 +417,28 @@ export default {
             ls: 2
 
           }
+        case 'InputBox':
+          return {
+            w: 100,
+            h: 30,
+            style: {
+              cursor: 'move',
+              transform: '',
+              borderRadius: '0',
+              lineHeight: '30px',
+
+            },
+            text: true,
+            message: '',
+            ref: id,
+            rote: 0,
+            radius: 0,
+            size: 12,
+            ele: event,
+            lh: 30,
+            ls: 2
+
+          }
         case 'DTableBox':
           this.isRenderTable = true
           return {

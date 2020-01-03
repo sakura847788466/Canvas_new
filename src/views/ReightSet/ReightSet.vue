@@ -15,28 +15,27 @@
           </div>
           <div class="item">
             <span>画布尺寸</span>
-            <el-input v-model="input"
+            <el-input v-model="canvas_size"
                       :disabled="true"
                       size="mini"
-                      class="inp"
-                      placeholder="1100mm*1100mm"></el-input>
+                      class="inp input_size"></el-input>
           </div>
           <div class="item">
             <span style="width:31px;"></span>
             <el-input v-model="templateInfo.size"
                       :disabled="true"
                       size="mini"
-                      class="inp inputWH"></el-input>
+                      class="inp inputWH input_size"></el-input>
           </div>
           <div class="item">
             <span>网格</span>
             <div class="showOr">
               <span>{{show_easy?"显示":"隐藏"}}</span>
               <i class="iconfont iconxianshi"
-                 :style="{'display': (show_easy? 'block':'none')}"
+                 :style="{'display': (show_easy? 'block':'none'),'margin-right':'5px'}"
                  @click="clickShow"></i>
               <i class="iconfont iconyincang"
-                 :style="{'display': (show_easy? 'none':'block')}"
+                 :style="{'display': (show_easy? 'none':'block'),'margin-right':'5px'}"
                  @click="clickShow"></i>
             </div>
           </div>
@@ -1509,7 +1508,8 @@
           </div>
           <div class='encoding'>
             <span>编码格式</span>
-            <el-select v-model="code_value"
+            <el-select v-model="
+                      code_value"
                        placeholder="请选择"
                        size="mini"
                        style="width:138px;margin-left: 10px;">
@@ -1581,6 +1581,9 @@ import QRCode from "qrcode";
 import JsBarcode from 'jsbarcode'
 export default {
   name: "RightSet",
+  mounted () {
+    this.getCanvasSize()
+  },
   data () {
     return {
       font: [{
@@ -1702,13 +1705,20 @@ export default {
       img_panel: true,
       lock_status: true,
       liStatus: true,
-      qrcodeurl: ''
+      qrcodeurl: '',
+      canvas_size: ''
     }
   },
   components: {
     QRCode
   },
   methods: {
+    //画布尺寸
+    getCanvasSize () {
+      const h = this.templateInfo.h
+      const w = this.templateInfo.w
+      this.canvas_size = h + 'px' + '*' + w + 'px'
+    },
     // 生成二维码
     makeQRCode () {
       const value = JSON.stringify({ key: this.qrcode_key, value: this.qrcode_value })
@@ -2130,18 +2140,18 @@ export default {
     },
     //边框可见
     border_style (index) {
-      console.log(index)
+      const style = this.message.style
       if (index = 0) {
-        const style = this.message.style
+
+      } else if (index == 1) {
         style.borderColor = 'rgb(0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)'
-      } else if (index = 1) {
 
-      } else if (index = 2) {
-
+      } else if (index == 2) {
+        style.borderColor = 'rgba(0, 0, 0,0) rgb(0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)'
       } else if (index = 3) {
-
+        style.borderColor = 'rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0) rgba(0, 0, 0, 0)'
       } else if (index = 4) {
-
+        style.borderColor = 'rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0)'
       }
     },
 
@@ -2194,6 +2204,11 @@ export default {
 }
 </script>
 <style>
+.item .el-input__inner {
+  width: 114px;
+  text-align: center;
+  padding: 0 5px;
+}
 .inp_box .right .el-input__inner {
   height: 24px;
   display: inline-block;
@@ -2265,7 +2280,7 @@ export default {
   display: flex;
   width: 83px;
   height: 28px;
-  margin-right: 37px;
+  margin-right: 34px;
   border: 1px solid #e3e4e2;
   background-color: #e4e7ed;
   align-items: center;
@@ -2286,7 +2301,6 @@ export default {
 
 .item .inp {
   flex: 3;
-  margin-right: 10px;
 }
 
 .title {
