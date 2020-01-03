@@ -171,11 +171,11 @@
             <span class="border_title">描边</span>
             <div class="border_SetCnt">
               <div class="border_color_cnt">
-                <el-select v-model="value"
+                <el-select v-model="select_lineType"
                            placeholder=""
                            class="line_select"
                            size='mini'
-                           @change="change">
+                           @change="changeLineType">
                   <el-option v-for="item in options"
                              :key="item.value"
                              :label="item.label"
@@ -787,7 +787,7 @@
               </div>
               <div class="border_width_box">
                 <div class="el-select">
-                  <el-select v-model="value_number"
+                  <el-select v-model="value_num"
                              placeholder="请选择"
                              size="mini"
                              @change="change_borderW">
@@ -957,7 +957,7 @@
               </div>
               <div class="border_width_box">
                 <div class="el-select">
-                  <el-select v-model="value_number"
+                  <el-select v-model="value_num"
                              placeholder="请选择"
                              size="mini"
                              @change="table_borderChange">
@@ -1369,14 +1369,16 @@
         </span>
         <div class="attribute_box"
              :style="{'display':(panel_status?'':'none'),'margin-top':'10px'}">
-          <div class="attr_item">
+          <div class="attr_item"
+               style="flex:0;">
             <span>KEY值</span>
             <el-input v-model="qrcode_key"
                       placeholder="请以字母命名"
                       size="mini"
                       style="width:150px;margin-left:10px;"></el-input>
           </div>
-          <div class="attr_item">
+          <div class="attr_item"
+               style="flex:0;">
             <el-input v-model="qrcode_value"
                       placeholder="请输入二维码信息内容"
                       type="textarea"
@@ -1492,7 +1494,7 @@
           <div class="attr_item"
                style="flex:0;">
             <span>KEY值</span>
-            <el-input v-model="qrcode_key"
+            <el-input v-model="barcode_key"
                       placeholder="请以字母命名"
                       size="mini"
                       style="width:150px;margin-left:10px;"></el-input>
@@ -1500,7 +1502,7 @@
           <div class="attr_item"
                style="flex:0;flex-direction: column;">
             <!-- <span style="margin-top:3px;margin-right:43px;">内容:(请输入条形码内容)</span> -->
-            <el-input v-model="qrcode_value"
+            <el-input v-model="barcode_value"
                       placeholder="请输入条形信息内容"
                       type="textarea"
                       style="margin-top:10px;width:202px;"></el-input>
@@ -1550,10 +1552,10 @@
                               placeholder=""></el-input>
                     <i class="el-icon-caret-top"
                        style="position:absolute;top:0;right:3px;"
-                       @click='add_w($event)'></i>
+                       @click="add_h($event)"></i>
                     <i class="el-icon-caret-bottom"
                        style="position:absolute;bottom:0;right:3px;"
-                       @click="min_w($event)"></i>
+                       @click="min_h($event)"></i>
                   </div>
 
                 </div>
@@ -1648,6 +1650,7 @@ export default {
           label: '...'
         }
       ],
+      select_lineType: '—',
       number: [{
         value: '0',
         label: '0'
@@ -1670,7 +1673,6 @@ export default {
       liArrays: [],
       value: '',
       value_num: '2',
-      value_number: '',
 
       set: {
         type: 'set',
@@ -1687,6 +1689,8 @@ export default {
       input: "",
       qrcode_value: "",
       qrcode_key: '',
+      barcode_key: 'ada',
+      barcode_value: '111',
       show_easy: true,
       style_status: true,
       Rectangle_show: false,
@@ -1731,6 +1735,10 @@ export default {
 
       })
       this.message.img = this.$refs.img.src
+      this.$message({
+        message: '条形码生成成功',
+        type: 'success'
+      });
     },
     add_barcodew (type) {
       if (type == 'add') {
@@ -1765,9 +1773,9 @@ export default {
     Rectangle_change () {
       this.Rectangle_show = !this.Rectangle_show
     },
-    change () {
+    changeLineType (value) { //线段类型
       const style = this.message.style
-      style.borderTopStyle = this.value
+      style.borderTopStyle = value
     },
     transform ($event) {
       console.log($event)
@@ -2143,20 +2151,18 @@ export default {
     },
     //表格线宽
     table_borderChange (value) {
-      console.log(this.message.ele)
       const table = this.message.ele.srcElement.firstChild.firstElementChild
-      const tr = table.rows.children
-      console.log(td)
+      console.log(table)
       table.style.borderWidth = value + 'px'
 
-      for (let j = 0; j < tr.length; j++) {
-        tr[j].style.borderWidth = value + 'px'
+      // for (let j = 0; j < tr.length; j++) {
+      //   tr[j].style.borderWidth = value + 'px'
 
-      }
-      for (let i = 0; i < td.length; i++) {
-        td[i].style.borderWidth = value + 'px'
+      // }
+      // for (let i = 0; i < td.length; i++) {
+      //   td[i].style.borderWidth = value + 'px'
 
-      }
+      // }
 
     }
 
@@ -2191,6 +2197,8 @@ export default {
 .inp_box .right .el-input__inner {
   height: 24px;
   display: inline-block;
+  background-color: #f6f7f8;
+  border: none;
 }
 
 .input__suffix {
@@ -2305,7 +2313,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  background: #e3e4e2;
+  background-color: #f6f7f8;
   position: relative;
 }
 
@@ -2458,7 +2466,7 @@ svg {
 }
 
 .border_width_box .el-select {
-  width: 46px;
+  width: 56px;
   height: 24px;
 }
 
@@ -2578,7 +2586,7 @@ svg {
 }
 
 .border_color_cnt .line_select {
-  width: 46px;
+  width: 66px;
   height: 24px;
 }
 
